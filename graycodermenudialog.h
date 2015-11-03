@@ -31,25 +31,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "menudialog.h"
 
 namespace ribi {
+namespace grco {
 
 ///GUI independent GrayCoder menu dialog
-struct GrayCoderMenuDialog final : public MenuDialog
+struct menu_dialog final : public MenuDialog
 {
-  GrayCoderMenuDialog();
-  About GetAbout() const noexcept override;
-  Help GetHelp() const noexcept override;
-  boost::shared_ptr<const Program> GetProgram() const noexcept override;
-  std::string GetVersion() const noexcept override;
-  std::vector<std::string> GetVersionHistory() const noexcept override;
+  explicit menu_dialog() noexcept;
 
   private:
   int ExecuteSpecific(const std::vector<std::string>& argv) noexcept override;
+  About GetAbout() const noexcept override;
+  Help GetHelp() const noexcept override;
+  std::string GetVersion() const noexcept override;
+  std::vector<std::string> GetVersionHistory() const noexcept override;
 
   #ifndef NDEBUG
-  static void Test() noexcept;
+  static void test() noexcept;
   #endif
 
 };
+
+} //~namespace grco
+
+using GrayCoderMenuDialog = grco::menu_dialog;
 
 } //~namespace ribi
 

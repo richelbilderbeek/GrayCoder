@@ -26,10 +26,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 
 namespace ribi {
+namespace grco {
 
-struct GrayCoderMainDialog
+struct main_dialog
 {
-  GrayCoderMainDialog(const int normal_int = 0);
+  explicit main_dialog(const int normal_int = 0) noexcept;
 
   ///From http://www.richelbilderbeek.nl/CppBitStringToInt.htm
   static int BitStringToInt(const std::string& s);
@@ -52,7 +53,6 @@ struct GrayCoderMainDialog
   ///Set the normal integer, creates the Gray code integer
   void SetNormalInt(const int i) { m_i = i; }
 
-
   private:
   ///Store a normal integer only
   int m_i;
@@ -71,11 +71,16 @@ struct GrayCoderMainDialog
   static int IntToGray(const int i);
 
   #ifndef NDEBUG
-  static void Test() noexcept;
+  static void test() noexcept;
   #endif
 };
 
-std::ostream& operator<<(std::ostream& os, const GrayCoderMainDialog& dialog);
+std::ostream& operator<<(std::ostream& os, const main_dialog& dialog);
+
+
+} //~namespace grco
+
+using GrayCoderMainDialog = grco::main_dialog;
 
 } //~namespace ribi
 

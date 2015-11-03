@@ -35,14 +35,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "trace.h"
 #pragma GCC diagnostic pop
 
-ribi::GrayCoderMenuDialog::GrayCoderMenuDialog()
+ribi::grco::menu_dialog::menu_dialog() noexcept
 {
   #ifndef NDEBUG
-  Test();
+  test();
   #endif
 }
 
-int ribi::GrayCoderMenuDialog::ExecuteSpecific(const std::vector<std::string>& argv) noexcept
+int ribi::grco::menu_dialog::ExecuteSpecific(const std::vector<std::string>& argv) noexcept
 {
   const int argc = static_cast<int>(argv.size());
   if (argc == 1)
@@ -59,7 +59,7 @@ int ribi::GrayCoderMenuDialog::ExecuteSpecific(const std::vector<std::string>& a
       try
       {
         const int x = boost::lexical_cast<int>( argv[i + 1] );
-        GrayCoderMainDialog d;
+        main_dialog d;
         d.SetNormalInt(x);
         std::cout << d << '\n';
         return 0;
@@ -75,8 +75,8 @@ int ribi::GrayCoderMenuDialog::ExecuteSpecific(const std::vector<std::string>& a
       try
       {
 
-        const int x = GrayCoderMainDialog::BitStringToInt( argv[i + 1] );
-        GrayCoderMainDialog d;
+        const int x = main_dialog::BitStringToInt( argv[i + 1] );
+        main_dialog d;
         d.SetNormalInt(x);
         std::cout << d << '\n';
         return 0;
@@ -93,7 +93,7 @@ int ribi::GrayCoderMenuDialog::ExecuteSpecific(const std::vector<std::string>& a
   return 1;
 }
 
-ribi::About ribi::GrayCoderMenuDialog::GetAbout() const noexcept
+ribi::About ribi::grco::menu_dialog::GetAbout() const noexcept
 {
   About a(
     "Richel Bilderbeek",
@@ -110,7 +110,7 @@ ribi::About ribi::GrayCoderMenuDialog::GetAbout() const noexcept
   return a;
 }
 
-ribi::Help ribi::GrayCoderMenuDialog::GetHelp() const noexcept
+ribi::Help ribi::grco::menu_dialog::GetHelp() const noexcept
 {
   return ribi::Help(
     this->GetAbout().GetFileTitle(),
@@ -126,22 +126,12 @@ ribi::Help ribi::GrayCoderMenuDialog::GetHelp() const noexcept
   );
 }
 
-boost::shared_ptr<const ribi::Program> ribi::GrayCoderMenuDialog::GetProgram() const noexcept
-{
-  boost::shared_ptr<const ribi::Program> p {
-    new ribi::ProgramGrayCoder
-  };
-  assert(p);
-  return p;
-}
-
-
-std::string ribi::GrayCoderMenuDialog::GetVersion() const noexcept
+std::string ribi::grco::menu_dialog::GetVersion() const noexcept
 {
   return "2.2";
 }
 
-std::vector<std::string> ribi::GrayCoderMenuDialog::GetVersionHistory() const noexcept
+std::vector<std::string> ribi::grco::menu_dialog::GetVersionHistory() const noexcept
 {
   return {
     "2009-05-02: version 1.0: initial version in C++ Builder",
@@ -152,14 +142,14 @@ std::vector<std::string> ribi::GrayCoderMenuDialog::GetVersionHistory() const no
 }
 
 #ifndef NDEBUG
-void ribi::GrayCoderMenuDialog::Test() noexcept
+void ribi::grco::menu_dialog::test() noexcept
 {
   {
     static bool is_tested{false};
     if (is_tested) return;
     is_tested = true;
   }
-  GrayCoderMainDialog(0);
+  main_dialog(0);
   const TestTimer test_timer(__func__,__FILE__,1.0);
 }
 #endif

@@ -1,13 +1,10 @@
 INCLUDEPATH += \
-    ../../Tools/ToolGrayCoder
+    ../GrayCoder
 
 SOURCES += \
-    ../../Tools/ToolGrayCoder/graycodermaindialog.cpp \
-    ../../Tools/ToolGrayCoder/graycodermenudialog.cpp
+    ../GrayCoder/graycodermaindialog.cpp \
+    ../GrayCoder/graycodermenudialog.cpp
 
 HEADERS += \
-    ../../Tools/ToolGrayCoder/graycodermaindialog.h \
-    ../../Tools/ToolGrayCoder/graycodermenudialog.h
-
-OTHER_FILES += \
-    ../../Tools/ToolGrayCoder/Licence.txt
+    ../GrayCoder/graycodermaindialog.h \
+    ../GrayCoder/graycodermenudialog.h

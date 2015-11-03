@@ -33,15 +33,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "trace.h"
 #pragma GCC diagnostic pop
 
-ribi::GrayCoderMainDialog::GrayCoderMainDialog(const int normal_int)
+ribi::grco::main_dialog::main_dialog(const int normal_int) noexcept
   : m_i(normal_int)
 {
   #ifndef NDEBUG
-  Test();
+  test();
   #endif
 }
 
-int ribi::GrayCoderMainDialog::BitStringToInt(const std::string& s)
+int ribi::grco::main_dialog::BitStringToInt(const std::string& s)
 {
   int power = 1;
   int result = 0;
@@ -66,7 +66,7 @@ int ribi::GrayCoderMainDialog::BitStringToInt(const std::string& s)
   return result;
 }
 
-int ribi::GrayCoderMainDialog::GrayToInt(int i)
+int ribi::grco::main_dialog::GrayToInt(int i)
 {
   int power = 1;
   while (1)
@@ -78,7 +78,7 @@ int ribi::GrayCoderMainDialog::GrayToInt(int i)
   }
 }
 
-std::string ribi::GrayCoderMainDialog::IntToBitString(int i)
+std::string ribi::grco::main_dialog::IntToBitString(int i)
 {
   assert( i >= 0 && "Did not bother to supply this yet");
   std::string s =(i%2 ? "1" : "0" );
@@ -91,14 +91,14 @@ std::string ribi::GrayCoderMainDialog::IntToBitString(int i)
   return s;
 }
 
-int ribi::GrayCoderMainDialog::IntToGray(const int i)
+int ribi::grco::main_dialog::IntToGray(const int i)
 {
   assert( i >= 0 && "Did not bother to supply this yet");
   return (i ^ (i>>1));
 }
 
 #ifndef NDEBUG
-void ribi::GrayCoderMainDialog::Test() noexcept
+void ribi::grco::main_dialog::test() noexcept
 {
   {
     static bool is_tested{false};
@@ -185,7 +185,7 @@ void ribi::GrayCoderMainDialog::Test() noexcept
 }
 #endif
 
-std::ostream& ribi::operator<<(std::ostream& os, const GrayCoderMainDialog& dialog)
+std::ostream& ribi::grco::operator<<(std::ostream& os, const main_dialog& dialog)
 {
   os
     << "Normal value   : " << dialog.GetNormalInt() << " (" << dialog.GetNormalIntAsBitStr() << ")\n"
