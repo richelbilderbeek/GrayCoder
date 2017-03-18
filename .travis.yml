@@ -50,10 +50,6 @@ script:
   - qmake GrayCoderConsole.pro
   - make debug
   - ./GrayCoderConsole --help
-  # Website
-  - qmake GrayCoderWebsite.pro
-  - make debug
-  - ./GrayCoderWebsite &
   # cppcheck
   - cppcheck --quiet --error-exitcode=1 . 
   # Code coverage
