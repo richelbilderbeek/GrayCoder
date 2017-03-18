@@ -1,42 +1,63 @@
-QT += core gui
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-TEMPLATE = app
+include(../RibiClasses/CppAbout/CppAbout.pri)
+include(../RibiClasses/CppHelp/CppHelp.pri)
+include(../RibiClasses/CppMenuDialog/CppMenuDialog.pri)
+include(../RibiClasses/CppQtAboutDialog/CppQtAboutDialog.pri)
+include(../RibiClasses/CppQtHideAndShowDialog/CppQtHideAndShowDialog.pri)
 
-include(../../Classes/CppAbout/CppAbout.pri)
-include(../../Classes/CppHelp/CppHelp.pri)
-include(../../Classes/CppMenuDialog/CppMenuDialog.pri)
-include(../../Classes/CppQtAboutDialog/CppQtAboutDialog.pri)
-include(../../Classes/CppQtHideAndShowDialog/CppQtHideAndShowDialog.pri)
-include(../../Classes/CppRichelBilderbeekProgram/CppRichelBilderbeekProgram.pri)
-include(../../Classes/CppTrace/CppTrace.pri)
-
-include(../../Tools/ToolGrayCoder/ToolGrayCoderDesktop.pri)
+include(GrayCoderDesktop.pri)
 
 SOURCES += qtmain.cpp
 
-#
-#
-# Type of compile
-#
-#
+# C++14
+CONFIG += c++14
+QMAKE_CXXFLAGS += -std=c++14
 
+# High warning levels
+# Qt does not go well with -Weffc++
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
+
+# Debug and release mode
+CONFIG += debug_and_release
+
+# In release mode, define NDEBUG
 CONFIG(release, debug|release) {
-  DEFINES += NDEBUG NTRACE_BILDERBIKKEL
+
+  DEFINES += NDEBUG
+
+  # GSL
+  DEFINES += GSL_UNENFORCED_ON_CONTRACT_VIOLATION
+
+  # gprof
+  QMAKE_CXXFLAGS += -pg
+  QMAKE_LFLAGS += -pg
 }
 
-QMAKE_CXXFLAGS += -std=c++11 -Wall -Wextra -Weffc++
+# In debug mode, turn on gcov and UBSAN
+CONFIG(debug, debug|release) {
 
-unix {
-  QMAKE_CXXFLAGS += -Werror
+  # GSL
+  DEFINES += GSL_UNENFORCED_ON_CONTRACT_VIOLATION
+
+  # gcov
+  QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
+  LIBS += -lgcov
+
+  # UBSAN
+  QMAKE_CXXFLAGS += -fsanitize=undefined
+  QMAKE_LFLAGS += -fsanitize=undefined
+  LIBS += -lubsan
 }
 
-#
-#
-# Boost
-#
-#
+# Qt
+QT += core gui widgets
 
-win32 {
-  INCLUDEPATH += \
-    ../../Libraries/boost_1_54_0
-}
+# Prevent Qt for failing with this error:
+# qrc_[*].cpp:400:44: error: ‘qInitResources_[*]__init_variable__’ defined but not used
+# [*]: the resource filename
+QMAKE_CXXFLAGS += -Wno-unused-variable
+
+# Fixes
+#/usr/include/boost/math/constants/constants.hpp:277: error: unable to find numeric literal operator 'operator""Q'
+#   BOOST_DEFINE_MATH_CONSTANT(half, 5.000000000000000000000000000000000000e-01, "5.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e-01")
+#   ^
+QMAKE_CXXFLAGS += -fext-numeric-literals

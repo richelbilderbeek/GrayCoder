@@ -1,24 +1,3 @@
-//---------------------------------------------------------------------------
-/*
-GrayCoder, tool to convert integers to and from Gray code
-Copyright (C) 2009-2015 Richel Bilderbeek
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-//---------------------------------------------------------------------------
-// From http://www.richelbilderbeek.nl/ToolGrayCoder.htm
-//---------------------------------------------------------------------------
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
@@ -30,16 +9,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/lexical_cast.hpp>
 
 #include "graycodermaindialog.h"
-#include "richelbilderbeekprogram.h"
-#include "testtimer.h"
-#include "trace.h"
 #pragma GCC diagnostic pop
 
 ribi::grco::menu_dialog::menu_dialog() noexcept
 {
-  #ifndef NDEBUG
-  test();
-  #endif
+
 }
 
 int ribi::grco::menu_dialog::ExecuteSpecific(const std::vector<std::string>& argv) noexcept
@@ -48,7 +22,7 @@ int ribi::grco::menu_dialog::ExecuteSpecific(const std::vector<std::string>& arg
   if (argc == 1)
   {
     std::cout << GetHelp() << '\n';
-    return 1;
+    return 0;
   }
   //User supplied binary or decimal value?
   for (int i=0; i!=argc-1; ++i) //-1 as the next argument is used
@@ -105,8 +79,6 @@ ribi::About ribi::grco::menu_dialog::GetAbout() const noexcept
     GetVersion(),
     GetVersionHistory()
   );
-  a.AddLibrary("TestTimer version: " + TestTimer::GetVersion());
-  a.AddLibrary("Trace version: " + Trace::GetVersion());
   return a;
 }
 
@@ -140,16 +112,3 @@ std::vector<std::string> ribi::grco::menu_dialog::GetVersionHistory() const noex
     "2013-11-01: version 2.2: added console application",
   };
 }
-
-#ifndef NDEBUG
-void ribi::grco::menu_dialog::test() noexcept
-{
-  {
-    static bool is_tested{false};
-    if (is_tested) return;
-    is_tested = true;
-  }
-  main_dialog(0);
-  const TestTimer test_timer(__func__,__FILE__,1.0);
-}
-#endif

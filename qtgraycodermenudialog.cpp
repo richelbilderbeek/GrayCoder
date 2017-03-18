@@ -9,8 +9,6 @@
 #include "qtaboutdialog.h"
 #include "qtgraycodermaindialog.h"
 #include "qthideandshowdialog.h"
-#include "testtimer.h"
-#include "trace.h"
 #include "ui_qtgraycodermenudialog.h"
 #pragma GCC diagnostic pop
 
@@ -18,9 +16,6 @@ ribi::QtGrayCoderMenuDialog::QtGrayCoderMenuDialog(QWidget *parent) noexcept :
     QtHideAndShowDialog(parent),
     ui(new Ui::QtGrayCoderMenuDialog)
 {
-  #ifndef NDEBUG
-  Test();
-  #endif
   ui->setupUi(this);
 }
 
@@ -56,16 +51,3 @@ void ribi::QtGrayCoderMenuDialog::on_button_start_clicked() noexcept
   d.setStyleSheet(this->styleSheet());
   ShowChild(&d);
 }
-
-#ifndef NDEBUG
-void ribi::QtGrayCoderMenuDialog::Test() noexcept
-{
-  {
-    static bool is_tested{false};
-    if (is_tested) return;
-    is_tested = true;
-  }
-  QtGrayCoderMainDialog();
-  const TestTimer test_timer(__func__,__FILE__,1.0);
-}
-#endif
